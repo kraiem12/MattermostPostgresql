@@ -1,0 +1,5 @@
+install-postgres.yml
+install-mattermost.yml
+templates
+.idea
+.Vagrant

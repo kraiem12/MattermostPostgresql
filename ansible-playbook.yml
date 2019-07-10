@@ -1,0 +1,14 @@
+---
+- name: configurer mattermost et postgresql
+  hosts: mattermost
+  vars:
+    mattermostip: 192.168.60.21
+    ippostgres: 192.168.60.20
+    dbname: mattermost
+    dbuser: mattermost-user
+    dbpassword: password
+
+  become : yes
+  roles:
+    #- postgresql
+    - mattermost

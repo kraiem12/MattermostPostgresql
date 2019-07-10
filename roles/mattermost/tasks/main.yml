@@ -1,0 +1,54 @@
+---
+  - name: Ajouter l'utilisateur systeme mattermost
+    user:
+      name: mattermost
+      system: yes
+      home: /opt/mattermost
+
+
+  - name: telechagrer et désarchiver "mattermost-5.12.3-linux-amd64.tar.gz" dans /opt/mattermost
+    unarchive:
+      src: https://releases.mattermost.com/5.12.3/mattermost-5.12.3-linux-amd64.tar.gz
+      dest: /opt
+      remote_src: yes
+      owner: mattermost
+      group: mattermost
+      mode: g+w
+
+
+  - name: Ajouter le droit (g+w)
+    file:
+      path: /opt/mattermost
+      mode: g+w
+      recurse: yes
+
+
+  - name: Editer le fichier /opt/mattermost/config/config.json (DriverName)
+    lineinfile:
+      dest: /opt/mattermost/config/config.json
+      regexp: '"DriverName": "mysql",'
+      line: '        "DriverName": "postgres",'
+      backrefs: yes
+
+
+  - name: Edit /opt/mattermost/config/config.json (DataSource)
+    lineinfile:
+      dest: /opt/mattermost/config/config.json
+      regexp: '"DataSource":'
+      line: '        "DataSource": "postgres://{{dbuser}}:{{dbpassword}}@{{ippostgres}}:5432/mattermost?sslmode=disable&connect_timeout=10",'
+      backrefs: yes
+
+  - name: ajouter le service mattermost (systemd) RHEL/CentOS 7
+    template:
+      src: templates/mattermost.service.j2
+      dest: /etc/systemd/system/mattermost.service
+      owner: root
+      group: root
+      mode: 0664
+
+
+  - name: Activer et demarrer le service mattermost
+    service:
+      name: mattermost
+      enabled: yes
+      state: started
