@@ -1,4 +1,4 @@
-# MettermostPostgresql
+# MattermostPostgresql
 ## Création des machines vagrant 
 ```
 Créer les 2 machines virtuelles.
