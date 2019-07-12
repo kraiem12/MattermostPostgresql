@@ -18,6 +18,10 @@ Vagrant.configure("2") do |config|
     # static ip address
     mattermost.vm.network :private_network, ip: "192.168.60.21"
   end  
-
+  config.vm.define "nginx" do |nginx|
+    nginx.vm.hostname = "nginx"
+    # static ip address
+    nginx.vm.network :private_network, ip: "192.168.60.22"
+  end
 
 end

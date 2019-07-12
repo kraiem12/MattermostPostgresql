@@ -1,0 +1,25 @@
+---
+    - name: Installer les dépendences
+      yum:
+        name: epel-release
+        state: present
+
+    - name: Installer nginx
+      yum:
+        name: nginx
+        state: present
+    - name: Ajouter le fichier dans conf.d
+      template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/conf.d/mattermost
+    - name: Create a symbolic link
+      file:
+        src: /etc/nginx/conf.d/mattermost
+        dest: /etc/nginx/conf.d/default.conf
+        state: link
+
+
+    - name: Start NGiNX
+      service:
+        name: nginx
+        state: started

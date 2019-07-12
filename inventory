@@ -4,9 +4,13 @@
 [mattermost]
 192.168.60.21
 
+[nginx]
+192.168.60.22
+
 [all]
 192.168.60.20
 192.168.60.21
+192.168.60.22
 
 [all:vars]
 ansible_ssh_user=vagrant
